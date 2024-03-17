@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, Security
+from fastapi.encoders import jsonable_encoder
 from fastapi.security.http import HTTPBearer, HTTPAuthorizationCredentials
 from firebase import verify_id_token
 from mongo import MongoDB
@@ -27,7 +28,8 @@ async def read_document(collection_name: str, document_id: str):
     if document is None:
         raise HTTPException(status_code=404, detail="Document not found")
     
-    return str(document)
+    document['_id'] = str(document['_id'])  # Convert ObjectId to string
+    return jsonable_encoder(document)
 
 @app.put("/documents/{collection_name}/{document_id}", dependencies=[Depends(get_current_user)])
 async def update_document(collection_name: str, document_id: str, update_fields: Dict):
