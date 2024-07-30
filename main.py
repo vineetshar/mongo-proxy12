@@ -39,8 +39,3 @@ async def read_document(collection_name: str, document_id: str):
 async def update_document(collection_name: str, document_id: str, update_fields: Dict):
     updated_document = await db.update_document(collection_name, document_id, update_fields)
     return updated_document
-
-@app.delete("/documents/{collection_name}/{document_id}", dependencies=[Depends(get_current_user)])
-async def delete_document(collection_name: str, document_id: str):
-    await db.delete_document(collection_name, document_id)
-    return {"message": "Document deleted successfully"}
