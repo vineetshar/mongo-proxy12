@@ -5,6 +5,7 @@ from firebase import verify_id_token
 from mongo import MongoDB
 from typing import Dict
 
+
 app = FastAPI()
 db = MongoDB()
 auth_scheme = HTTPBearer()
